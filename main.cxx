@@ -2,7 +2,7 @@
 #include <pthread.h>
 #include <cstdlib>
 #include <cstdio>
-// #include <random>
+#include <random>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -27,18 +27,76 @@ unsigned THREADS = 1;
 // TOTAL OPERATIONS
 unsigned TOTAL_OPERATIONS;
 
+// STEP
+unsigned STEP;
+
+void *encrypt_step(std::string path) {
+	std::string command;
+	std::string tmp;
+
+	tmp = path + ".tmp";
+
+	command = "openssl aes-256-cbc -a -salt -in";
+	command += " " + path;
+	command += " -out";
+	command += " " + tmp;
+	command += " -k " + PASSWORD;
+
+	system(command.c_str());
+
+	// Replace the original file by the temporal file
+	command = "mv " + tmp + " " + path;
+	system(command.c_str());
+}
+
+void *decrypt_step(std::string path) {
+	std::string command;
+	std::string tmp;
+
+	tmp = path + ".tmp";
+
+	command = "openssl aes-256-cbc -d -a -in ";
+	command += " " + path;
+	command += " -out";
+	command += " " + tmp;
+	command += " -k " + PASSWORD;
+
+	system(command.c_str());
+
+	// Replace the original file by the temporal file
+	command = "mv " + tmp + " " + path;
+	system(command.c_str());
+}
+
 void *rsa(void *start) {
+	unsigned first;
+	unsigned next;
+	unsigned last;
+
+	first = *((unsigned *) start);
+	next = first + STEP - 1;
+	last = next;
+
+	if ( (TOTAL_OPERATIONS > THREADS*STEP - 1)
+		 && (THREADS*STEP - 1 == last) )
+	{
+		last = TOTAL_OPERATIONS - 1;
+	}
+
 	if (ENCRYPT)
 	{
-		// Encrypt the file into another file with the same name plus a .tmp extension
-		// status = system("openssl aes-256-cbc -a -salt -in /Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt -out /Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt.enc -k passpass");
+		for (int n = first; n <= last; n++)
+		{
+			encrypt_step(FILE_PATHS.at(n));
+		}
 	}
 	else
 	{
-		// Decrypt the file into another file with the same name plus a .tmp extension
-		// status = system("openssl aes-256-cbc -d -a -in /Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt.enc -out /Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt.dec -k passpass");
+		for (int n = first; n <= last; n++)
+		{
+			decrypt_step(FILE_PATHS.at(n));
+		}
 	}
-	
 
 	// Remove the original file
 
@@ -148,44 +206,47 @@ int main(int argc, char *argv[])
 	{
 		std::cout << TOTAL_OPERATIONS << " files has been set" << std::endl;
 	}
-	
-	std::endl;
+
+	std::cout << std::endl;
 
 	// Threads init
 
-	// printf("Start encrypting...\n");
+	printf("Start encrypting...\n");
+
+	// encrypt_step("/Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt");
+	// decrypt_step("/Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt");
 
 	// initialTime = std::time(NULL);
 
-	// // Parallel Version
-	// if (PARALLEL)
-	// {
-	// 	std::cout << "Creating Threads..." << std::endl;
-	// 	threads_tab = (pthread_t *)malloc( THREADS*sizeof(pthread_t));
-	// 	thread_args = (unsigned *)malloc(sizeof(unsigned)*THREADS);
-	// 	// if (DEBUG) std::cout << "Threads Initialized" << std::endl;
-	// 	std::cout << "Threads Initialized" << std::endl;
-	// 	for (unsigned i = 0; i < THREADS; i++)
-	// 	{
-	// 		thread_args[i] = i*STEP;
-	// 		error = pthread_create( &threads_tab[i], NULL, rsa, (void *)&thread_args[i]);
-	//  		if (error) return 1;
-	// 	}
+	// Parallel Version
+	if (PARALLEL)
+	{
+		std::cout << "Creating Threads..." << std::endl;
+		threads_tab = (pthread_t *)malloc( THREADS*sizeof(pthread_t));
+		thread_args = (unsigned *)malloc(sizeof(unsigned)*THREADS);
+		// if (DEBUG) std::cout << "Threads Initialized" << std::endl;
+		std::cout << "Threads Initialized" << std::endl;
+		for (unsigned i = 0; i < THREADS; i++)
+		{
+			thread_args[i] = i*STEP;
+			error = pthread_create( &threads_tab[i], NULL, rsa, (void *)&thread_args[i]);
+	 		if (error) return 1;
+		}
 
-	// 	for(unsigned i=0; i < THREADS; i++) pthread_join(threads_tab[i], NULL);
-	// }
+		for(unsigned i=0; i < THREADS; i++) pthread_join(threads_tab[i], NULL);
+	}
 
-	// // Sequential Version
-	// else
-	// {
-	// 	unsigned start = 0;
+	// Sequential Version
+	else
+	{
+		unsigned start = 0;
 
-	// 	for (unsigned i = 0; i < THREADS; i++)
-	// 	{
-	// 		start = i*STEP;
-	// 		rsa(&start);
-	// 	}
-	// }
+		for (unsigned i = 0; i < THREADS; i++)
+		{
+			start = i*STEP;
+			rsa(&start);
+		}
+	}
 
 	// finishTime = std::time(NULL);
 	// timeElapsed = finishTime - initialTime;
@@ -207,9 +268,8 @@ int main(int argc, char *argv[])
 	// 	std::cout << std::endl << std::endl;
 	// }
 
+	std::cout << "Finish encrypting" << std::endl;
 	// std::cout <<  "Timing: " << timeElapsed << "[s]" << std::endl;
-
-	// std::cout << "Finish Program" << std::endl;
 
 	return 0;
 }
