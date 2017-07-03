@@ -4,12 +4,12 @@ CC = g++
 # CFLAGS  = -g -Wall -std=c++11
 CFLAGS  = -g -Wall
 
-all: prsa
+all: paes
 
 # To create the executable file main we need the object files
 # main.o:
 #
-prsa:  main.o
+paes:  main.o
 	$(CC) $(CFLAGS) -o prsa main.o -lssl -lcrypto
 
 # To create the object file main.o, we need the source

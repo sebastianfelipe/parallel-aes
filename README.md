@@ -1,4 +1,4 @@
-# parallel-rsa
+# parallel-aes
 
 Developing it yet...
 
