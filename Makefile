@@ -10,7 +10,7 @@ all: paes
 # main.o:
 #
 paes:  main.o
-	$(CC) $(CFLAGS) -o prsa main.o -lssl -lcrypto
+	$(CC) $(CFLAGS) -o paes main.o -lssl -lcrypto
 
 # To create the object file main.o, we need the source
 # files main.cxx:
