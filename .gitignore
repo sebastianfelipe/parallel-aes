@@ -2,4 +2,3 @@
 tests
 *.o
 paes
-bin/*
