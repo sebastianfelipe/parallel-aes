@@ -13,6 +13,7 @@
 // DEBUG
 bool DEBUG = false;
 bool PARALLEL = false;
+bool MEMORY = false;
 
 // FILE PATHS
 std::vector<std::string> FILE_PATHS;
@@ -74,7 +75,11 @@ void *encrypt_file(std::string input, std::string output, std::string password) 
 	    	AES_cfb128_encrypt(indata, outdata, bytes_read, &key, ivec, &num,
 	           AES_DECRYPT);
 	    }
-	    bytes_written = fwrite(outdata, 1, bytes_read, ofp);
+	    if (!MEMORY)
+	    {
+	    	bytes_written = fwrite(outdata, 1, bytes_read, ofp);
+	    }
+
 	    if (bytes_read < AES_BLOCK_SIZE)
 	  		break;
 	  }
@@ -109,8 +114,16 @@ void *encrypt_step(std::string path) {
 	encrypt_file(path, tmp, PASSWORD);
 
 	// Replace the original file by the temporal file
-	command = "mv " + tmp + " " + path;
-	system(command.c_str());
+	if (!MEMORY)
+	{
+		command = "mv " + tmp + " " + path;
+		system(command.c_str());
+	}
+	else
+	{
+		command = "rm " + tmp;
+		system(command.c_str());
+	}
 
 	return NULL;
 }
@@ -131,13 +144,21 @@ void *decrypt_step(std::string path) {
 	encrypt_file(path, tmp, PASSWORD);
 
 	// Replace the original file by the temporal file
-	command = "mv " + tmp + " " + path;
-	system(command.c_str());
+	if (!MEMORY)
+	{
+		command = "mv " + tmp + " " + path;
+		system(command.c_str());
+	}
+	else
+	{
+		command = "rm " + tmp;
+		system(command.c_str());
+	}
 
 	return NULL;
 }
 
-void *rsa(void *start) {
+void *aes(void *start) {
 	unsigned first;
 	unsigned next;
 	unsigned last;
@@ -259,6 +280,11 @@ int main(int argc, char *argv[])
 		{
 			ENCRYPT = false;
 		}
+
+		else if (argv[i] == std::string("--memory") || argv[i] == std::string("--m"))
+		{
+			MEMORY = true;
+		}
 	}
 
 
@@ -301,8 +327,8 @@ int main(int argc, char *argv[])
 
 	if (DEBUG) std::cout << "Start " << (ENCRYPT ? "encrypting" : "decrypting") << " process..." << std::endl;
 
-	// encrypt_step("/Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt");
-	// decrypt_step("/Users/tiantg/Projects/parallel-rsa/tests/lorem-ipsum/data.txt");
+	// encrypt_step("/Users/tiantg/Projects/parallel-aes/tests/lorem-ipsum/data.txt");
+	// decrypt_step("/Users/tiantg/Projects/parallel-aes/tests/lorem-ipsum/data.txt");
 
 	// initialTime = std::time(NULL);
 
@@ -318,7 +344,7 @@ int main(int argc, char *argv[])
 		for (unsigned i = 0; i < THREADS; i++)
 		{
 			thread_args[i] = i*STEP;
-			error = pthread_create( &threads_tab[i], NULL, rsa, (void *)&thread_args[i]);
+			error = pthread_create( &threads_tab[i], NULL, aes, (void *)&thread_args[i]);
 	 		if (error) return 1;
 		}
 
@@ -333,7 +359,7 @@ int main(int argc, char *argv[])
 		for (unsigned i = 0; i < THREADS; i++)
 		{
 			start = i*STEP;
-			rsa(&start);
+			aes(&start);
 		}
 	}
 
