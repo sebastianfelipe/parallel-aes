@@ -37,11 +37,11 @@ Also, there are other parameters, used to determine the function of the program,
 
 If you want to install some files to test it, you can do it running:
 
-./scripts/tests/install.sh
+source ./scripts/tests/install.sh
 
 After that, if you want to run that test, you can do it executing the next line:
 
-./scripts/tests/run.sh
+source ./scripts/tests/run.sh
 
 Run these commands from root directory if you use the default parameters.
 
