@@ -1,0 +1,242 @@
+Memory tests
+paes --encrypt --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: False
+Threads: 1
+Process: Encrypt
+Storage: Memory
+
+real	0m15.994s
+user	0m15.632s
+sys	0m0.358s
+paes --decrypt --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: False
+Threads: 1
+Process: Decrypt
+Storage: Memory
+
+real	0m17.179s
+user	0m15.896s
+sys	0m0.414s
+paes --encrypt -t 2 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 2
+Process: Encrypt
+Storage: Memory
+
+real	0m8.894s
+user	0m16.873s
+sys	0m0.408s
+paes --decrypt -t 2 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 2
+Process: Decrypt
+Storage: Memory
+
+real	0m8.387s
+user	0m15.907s
+sys	0m0.432s
+paes --encrypt -t 4 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 4
+Process: Encrypt
+Storage: Memory
+
+real	0m4.649s
+user	0m16.686s
+sys	0m0.457s
+paes --decrypt -t 4 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 4
+Process: Decrypt
+Storage: Memory
+
+real	0m4.658s
+user	0m16.895s
+sys	0m0.468s
+paes --encrypt -t 8 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 8
+Process: Encrypt
+Storage: Memory
+
+real	0m4.693s
+user	0m17.201s
+sys	0m0.473s
+paes --decrypt -t 8 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 8
+Process: Decrypt
+Storage: Memory
+
+real	0m4.735s
+user	0m17.335s
+sys	0m0.473s
+paes --encrypt -t 16 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 16
+Process: Encrypt
+Storage: Memory
+
+real	0m4.491s
+user	0m16.886s
+sys	0m0.480s
+paes --decrypt -t 16 --memory
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 16
+Process: Decrypt
+Storage: Memory
+
+real	0m4.557s
+user	0m17.042s
+sys	0m0.478s
+Non-Memory tests
+paes --encrypt
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: False
+Threads: 1
+Process: Encrypt
+Storage: Files
+
+real	0m23.592s
+user	0m20.345s
+sys	0m2.647s
+paes --decrypt
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: False
+Threads: 1
+Process: Decrypt
+Storage: Files
+
+real	0m23.523s
+user	0m20.474s
+sys	0m2.611s
+paes --encrypt -t 2
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 2
+Process: Encrypt
+Storage: Files
+
+real	0m18.648s
+user	0m20.595s
+sys	0m2.893s
+paes --decrypt -t 2
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 2
+Process: Decrypt
+Storage: Files
+
+real	0m17.707s
+user	0m20.616s
+sys	0m2.884s
+paes --encrypt -t 4
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 4
+Process: Encrypt
+Storage: Files
+
+real	0m18.931s
+user	0m21.630s
+sys	0m3.017s
+paes --decrypt -t 4
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 4
+Process: Decrypt
+Storage: Files
+
+real	0m19.702s
+user	0m22.508s
+sys	0m3.131s
+paes --encrypt -t 8
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 8
+Process: Encrypt
+Storage: Files
+
+real	0m19.707s
+user	0m21.885s
+sys	0m3.137s
+paes --decrypt -t 8
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 8
+Process: Decrypt
+Storage: Files
+
+real	0m19.976s
+user	0m21.829s
+sys	0m3.145s
+paes --encrypt -t 16
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 16
+Process: Encrypt
+Storage: Files
+
+real	0m20.593s
+user	0m21.792s
+sys	0m3.181s
+paes --decrypt -t 16
+451 files has been set
+Base Path: ./tests
+Password: password
+Parallel: True
+Threads: 16
+Process: Decrypt
+Storage: Files
+
+real	0m21.303s
+user	0m21.841s
+sys	0m3.184s
