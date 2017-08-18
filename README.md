@@ -35,7 +35,6 @@ Also, there are other parameters, used to determine the function of the program,
 * --decrypt or --d: To set the decryption process
 * --verbose or --v: To run the program in a verbose mode
 
-
 If you want to install some files to test it, you can do it running:
 
 ./scripts/tests/install.sh
@@ -44,5 +43,9 @@ After that, if you want to run that test, you can do it executing the next line:
 
 ./scripts/tests/run.sh
 
+Run these commands from root directory if you use the default parameters.
+
+Enjoy it! :)
+
 Note: I wrote this code for academic purposes. Please read the instructions carefully before use it.
-I am not responsible for the misuse of this program. Enjoy it! :)
+I am not responsible for the misuse of this program.
