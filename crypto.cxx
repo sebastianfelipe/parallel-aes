@@ -49,23 +49,20 @@ int Crypto::load(bool debug, bool parallel, bool memory, bool encrypt, std::stri
 		return 1;
 	}
 
-	if (Crypto::debug)
+	if (Crypto::totalOperations == 1)
 	{
-		if (Crypto::totalOperations == 1)
-		{
-			std::cout << Crypto::totalOperations << " file has been set" << std::endl;
-		}
-		else
-		{
-			std::cout << Crypto::totalOperations << " files has been set" << std::endl;
-		}
-		std::cout << "Base Path: " << Crypto::basePath << std::endl;
-		std::cout << "Password: " << Crypto::password << std::endl;
-		std::cout << "Parallel: " << (Crypto::parallel ? "True" : "False") << std::endl;
-		std::cout << "Threads: " << Crypto::threads << std::endl;
-		std::cout << "Process: " << (Crypto::encrypt ? "Encrypt" : "Decrypt") << std::endl;
-		std::cout << "Storage: " << (Crypto::memory ? "Memory" : "Files") << std::endl;
+		std::cout << Crypto::totalOperations << " file has been set" << std::endl;
 	}
+	else
+	{
+		std::cout << Crypto::totalOperations << " files has been set" << std::endl;
+	}
+	std::cout << "Base Path: " << Crypto::basePath << std::endl;
+	std::cout << "Password: " << Crypto::password << std::endl;
+	std::cout << "Parallel: " << (Crypto::parallel ? "True" : "False") << std::endl;
+	std::cout << "Threads: " << Crypto::threads << std::endl;
+	std::cout << "Process: " << (Crypto::encrypt ? "Encrypt" : "Decrypt") << std::endl;
+	std::cout << "Storage: " << (Crypto::memory ? "Memory" : "Files") << std::endl;
 
 	return 0;
 };

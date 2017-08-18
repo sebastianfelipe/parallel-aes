@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	// pthread_t *threadsTab;
 	// unsigned *threadArgs;
 	std::string password = "password";
-	std::string basePath = "./tests/bunch-1/images-1";
+	std::string basePath = "./tests";
 	// Crypto *crypto;
 
 	bool debug = false;
@@ -76,10 +76,10 @@ int main(int argc, char *argv[])
 	}
 
 	res = Crypto::load(debug, parallel, memory, encrypt, basePath, password, threads);
-	if (res) return 2;
+	if (res) return res;
 
 	res = Crypto::run();
-	if (res) return 3;
+	if (res) return res;
 
 	return 0;
 }
