@@ -24,7 +24,7 @@ To use the program is necessary understand what parameters you can cofigure:
 
 Where:
 
-* PATH: The directory path (default: ./tests)
+* PATH: The directory path (default: ./tests). Note: The path doesn't have to contain spaces.
 * PASSWORD: Password associeted to the AES algorithm to encrypt or decrypt files (default: PASSWORD)
 * THREADS: The amount of threads used to encrypt or decrypt files (default: 1)
 
